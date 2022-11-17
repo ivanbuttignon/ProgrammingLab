@@ -13,7 +13,7 @@ def sum_csv(file_name):
     for item in values:
         sum = sum + item
     return sum
-print('La somma dei valori di shampoo_sales è {}'.format(sum_csv('shampoo_sales.csv')))
+#print('La somma dei valori di shampoo_sales è {}'.format(sum_csv('shampoo_sales.csv')))
 
     
         
