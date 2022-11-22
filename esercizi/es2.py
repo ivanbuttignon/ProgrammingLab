@@ -3,11 +3,11 @@
 def sum_csv(file_name):
     values = []
     my_file = open(file_name, 'r')
-    if(len(my_file) == 0):
+    if len(my_file) == 0:
         return None
     for line in my_file:
         elements = line.split(',')
-        if(elements[0] != 'Date'):
+        if elements[0] != 'Date':
             date = elements[0]
             value = float(elements[1])
             values.append(value)
