@@ -1,3 +1,5 @@
+# LEZIONE 2
+
 # definisco una lista e sommo i suoi elementi
 
 lista = [1,3,4,7]
