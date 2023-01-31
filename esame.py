@@ -4,7 +4,7 @@ class ExamException(Exception):
 class CSVFile(): 
     def __init__(self, name): 
         self.name = name
-
+        
     def get_data(self):
         pass
         
@@ -16,7 +16,7 @@ class CSVTimeSeriesFile(CSVFile):
             time_series_file = open(self.name, 'r')
         except:
             raise ExamException('Errore nell apertura/lettura del file')
-        if time_series_file == []:
+        if time_series_file.readline() == '':
             raise ExamException('Errore: file vuoto')
 # altrimenti opero su ogni riga del file
         for line in time_series_file:
@@ -32,6 +32,9 @@ class CSVTimeSeriesFile(CSVFile):
                 except:
                     continue
                 time_series.append(elements)
+        for i in range(len(time_series)):
+            if time_series[i+1][0] <= time_series[i][0]:
+                raise ExamException('Errore: timestamp duplicato/fuori ordine')
         return time_series
 
 time_series_file = CSVTimeSeriesFile(name='data.csv')
