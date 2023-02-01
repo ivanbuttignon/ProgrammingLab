@@ -45,24 +45,34 @@ class CSVTimeSeriesFile(CSVFile):
                     continue
 # aggiungo alla lista time_series le sottoliste elements, formate dalla coppia epoch - temperatura
                 time_series.append(elements)
-# una volta creata la lista di liste controllo che non ci siano timestamp duplicati o fuori ordine. In caso contrario alzo un'eccezione
-        for i in range(len(time_series) -1):
-            if time_series[i+1][0] <= time_series[i][0]:
-                raise ExamException('Errore: timestamp duplicato/fuori ordine')
-# se il check è andato a buon fine, ritorno la lista di liste
         return time_series
-
-time_series_file = CSVTimeSeriesFile(name='data.csv')
-time_series = time_series_file.get_data()
 
 # implemento il metodo per il calcolo dell'escursione termica giornaliera
 def compute_daily_max_difference(time_series):
+    
+# prima di svolgere qualsiasi operazioni eseguo il controllo sull'input
+    
 # controllo se in input ho una lista
     if type(time_series) != list:
         raise ExamException('Errore: in input non ho una lista')
 # controllo se la lista in input è vuota
     if time_series == []:
         raise ExamException('Errore: lista in input vuota')
+# controllo il tipo dei valori della lista di liste
+    for i in range(len(time_series)):
+# controllo che gli epoch siano tutti di tipo intero
+        if type(time_series[i][0]) != int:
+            raise ExamException('Errore: epoch non di tipo intero')
+# controllo che le misurazioni di temperatura siano tutte di tipo numerico
+        if type(time_series[i][1]) != int and type(time_series[i][1]) != float:
+            raise ExamException('Errore: misurazioni di temperatura non numeriche')
+# controllo se ci sono dei timestamp duplicati o fuori ordine
+    for i in range(len(time_series) - 1):
+        if time_series[i+1] <= time_series[i]:
+            raise ExamException('Errore: timestamp duplicati/fuori ordine')
+
+# inizio la "vera" implementazione del metodo
+            
 # trovo il giorno di partenza
     day_start_epoch = time_series[0][0] - (time_series[0][0] % 86400)
 # creo la lista che conterrà le escursioni termiche giornaliere
@@ -122,13 +132,7 @@ def compute_daily_max_difference(time_series):
 # ritorno la lista result con tutte le escursioni termiche giornaliere
     return result
 
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series = time_series_file.get_data()
 res = compute_daily_max_difference(time_series)
 print(res)
-
-                
-        
-            
-        
-    
-
-
