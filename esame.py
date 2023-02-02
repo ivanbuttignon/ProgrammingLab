@@ -1,8 +1,16 @@
-# creo la classe per la gestione delle eccezioni
+######################################################
+# FILE ESAME DI BUTTIGNON IVAN, MATRICOLA: SM3201368 #
+######################################################
+
+
+
+# CLASSE PER LA GESTIONE DELLE ECCEZIONI
 class ExamException(Exception):
         pass
 
-# creo la classe madre CSVFile
+
+    
+# CLASSE MADRE CSVFile
 class CSVFile():
 # metodo init con il nome del file CSV
     def __init__(self, name): 
@@ -12,7 +20,9 @@ class CSVFile():
     def get_data(self):
         pass
 
-# credo la sottoclasse CSVTimeSeriesFile che eredita da CSVFile
+
+        
+# SOTTOCLASSE CSVTimeSeriesFile CHE EREDITA DA CSVFile
 class CSVTimeSeriesFile(CSVFile):
     
 #implemento il metodo get_data
@@ -24,7 +34,7 @@ class CSVTimeSeriesFile(CSVFile):
             time_series_file = open(self.name, 'r')
         except:
             raise ExamException('Errore nell apertura/lettura del file')
-# gestisco il caso di un file vuoto, alzando al caso un'eccezione
+# gestisco il caso di un file vuoto
         if time_series_file.readline() == '':
             raise ExamException('Errore: file vuoto')
 # se non ho avuto problemi con il file, opero su ogni sua riga
@@ -47,7 +57,9 @@ class CSVTimeSeriesFile(CSVFile):
                 time_series.append(elements)
         return time_series
 
-# implemento il metodo per il calcolo dell'escursione termica giornaliera
+
+        
+# IMPLEMENTAZIONE DEL METODO compute_daily_max_difference
 def compute_daily_max_difference(time_series):
     
 # prima di svolgere qualsiasi operazioni eseguo il controllo sull'input
@@ -105,11 +117,11 @@ def compute_daily_max_difference(time_series):
                 day_list.append(temperature)
 # gestisco l'ultima riga
         else:
-# se la misurazione di temperatura dell'ultima riga è dello stesso giorno di quella precedente, aggiugno la rilevazione di temperatura a day_list e infine chiudo aggiungendo day_list alla lista days
+# se la misurazione di temperatura dell'ultima riga è dello stesso giorno di quella precedente, aggiungo la rilevazione di temperatura a day_list e infine chiudo aggiungendo day_list alla lista days
             if epoch - day_start_epoch < 86400:
                 day_list.append(temperature)
                 days.append(day_list)
-# se la misurazione di temperatura dell'ultima riga appartiene a un giorno nuovo rispetto a quella della penultima riga, aggiungo day_list a days, setto day_list a vuoto per salvare la misurazione di temperatura dell'ultima riga e solo dopo aggiungo day_list a days
+# se la misurazione di temperatura dell'ultima riga appartiene a un giorno nuovo rispetto a quella della penultima riga, aggiungo day_list a days, setto day_list a vuoto per salvare la misurazione di temperatura dell'ultima riga e solo dopo aggiungo nuovamente day_list a days
             else:
                 days.append(day_list)
                 day_list = []
@@ -132,7 +144,3 @@ def compute_daily_max_difference(time_series):
 # ritorno la lista result con tutte le escursioni termiche giornaliere
     return result
 
-time_series_file = CSVTimeSeriesFile(name='data.csv')
-time_series = time_series_file.get_data()
-res = compute_daily_max_difference(time_series)
-print(res)
