@@ -146,6 +146,6 @@ def compute_daily_max_difference(time_series):
 
 #time_series_file = CSVTimeSeriesFile(name='data.csv')
 #time_series = time_series_file.get_data()
-#es = compute_daily_max_difference(time_series)
+#res = compute_daily_max_difference(time_series)
 #print(res)
 
