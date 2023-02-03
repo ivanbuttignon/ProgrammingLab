@@ -94,9 +94,9 @@ def compute_daily_max_difference(time_series):
 # creo lista che conterrà tutte le misurazioni di temperatura di un giorno 
     day_list = []
 # itero su tutta la lunghezza della lista time_series
-    for j in range(len(time_series)):
+    for j in range(len(time_series) + 1):
 # gestisco tutte le righe diverse dall'ultima
-        if j < len(time_series) - 1:
+        if j < len(time_series):
 # variabile di appoggio, epoch 
             epoch = time_series[j][0]
 # variabile di appoggio, temperature
@@ -117,9 +117,9 @@ def compute_daily_max_difference(time_series):
                 day_list.append(temperature)
 # gestisco l'ultima riga
         else:
+            day_start_epoch = epoch - (epoch % 86400)
 # se la misurazione di temperatura dell'ultima riga è dello stesso giorno di quella precedente, aggiungo la rilevazione di temperatura a day_list e infine chiudo aggiungendo day_list alla lista days
             if epoch - day_start_epoch < 86400:
-                day_list.append(temperature)
                 days.append(day_list)
 # se la misurazione di temperatura dell'ultima riga appartiene a un giorno nuovo rispetto a quella della penultima riga, aggiungo day_list a days, setto day_list a vuoto per salvare la misurazione di temperatura dell'ultima riga e solo dopo aggiungo nuovamente day_list a days
             else:
@@ -130,7 +130,7 @@ def compute_daily_max_difference(time_series):
                 
 # alla fine del ciclo for ho ottenuto una lista di liste: days infatti è una lista che contiene tutte le misurazioni di temperatura (raccolte in una lista) per ogni singolo giorno
 
-# devo ora trovare l'escursione termica di ogni singolo giorno e aggiungere tali valori alla lista result. Itero quindi su tutta la lunghezza della lista days, cioè vado a considerare ogni suo elemento (sottolista)                
+# devo ora trovare l'escursione termica di ogni singolo giorno e aggiungere tali valori alla lista result. Itero quindi su tutta la lunghezza della lista days, cioè vado a considerare ogni suo elemento (sottolista)  
     for i in range(len(days)):
 # se la lunghezza della sottolista è pari a 1, quindi la sottolista ha 1 solo elemento, non posso trovare l'escursione termica e quindi aggiungo None a result
         if len(days[i]) == 1: 
@@ -143,4 +143,9 @@ def compute_daily_max_difference(time_series):
             result.append(massimo-minimo)
 # ritorno la lista result con tutte le escursioni termiche giornaliere
     return result
+
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series = time_series_file.get_data()
+res = compute_daily_max_difference(time_series)
+print(res)
 
