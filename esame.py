@@ -144,8 +144,8 @@ def compute_daily_max_difference(time_series):
 # ritorno la lista result con tutte le escursioni termiche giornaliere
     return result
 
-time_series_file = CSVTimeSeriesFile(name='data.csv')
-time_series = time_series_file.get_data()
-res = compute_daily_max_difference(time_series)
-print(res)
+#time_series_file = CSVTimeSeriesFile(name='data.csv')
+#time_series = time_series_file.get_data()
+#es = compute_daily_max_difference(time_series)
+#print(res)
 
